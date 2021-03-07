@@ -1,37 +1,37 @@
 apiVersion: v1
 kind: Namespace
 metadata:
-  name: wanyang3
+  name: nsp-zjx
 ---
 apiVersion: v1
 kind: ConfigMap
 metadata:
   name: demo-configmap-1
-  namespace: wanyang3
+  namespace: nsp-zjx
 data:
   DEPLOYMENT_ENV: test
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: demo-hwy-1
-  namespace: wanyang3
+  name: demo-zjx-1
+  namespace: nsp-zjx
   labels:
-    app: demo-hwy-1
+    app: demo-zjx-1
 spec:
   strategy:
     type: Recreate
   selector:
     matchLabels:
-      app: demo-hwy-1
+      app: demo-zjx-1
   template:
     metadata:
       labels:
-        app: demo-hwy-1
+        app: demo-zjx-1
     spec:
       containers:
       - name: demo
-        image: huwanyang168/demo:0.0.1
+        image: zhjx/demo:0.0.1
         imagePullPolicy: IfNotPresent
         args: ["--spring.profiles.active=$(DEPLOYMENT_ENV_KEY)"]
         ports:
@@ -46,10 +46,10 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: demo-hwy-1
-  namespace: wanyang3
+  name: demo-zjx-1
+  namespace: nsp-zjx
   labels:
-    app: demo-hwy-1
+    app: demo-zjx-1
 spec:
   type: NodePort
   ports:
@@ -58,4 +58,4 @@ spec:
       targetPort: 8080
       nodePort: 32124
   selector:
-    app: demo-hwy-1
+    app: demo-zjx-1
