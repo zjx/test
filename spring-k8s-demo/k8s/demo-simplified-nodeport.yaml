@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: deployment-demo
+  labels:
+    app: deployment-demo-label
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: zjx-demo
+  template:
+    metadata:
+      labels:
+        app: zjx-demo
+    spec:
+      containers:
+      - image: zhjx/demo:0.0.1
+        imagePullPolicy: IfNotPresent
+        name: container-demo
+        env:
+        - name: branch
+          value: <BRANCH_NAME>
+---
+apiVersion: v1
+kind: Service
+metadata:
+   name: service-demo
+spec:
+   selector:
+     app: zjx-demo
+   type: NodePort
+   ports:
+   - port: 8080
+     targetPort: 8080
+     nodePort: 31888
